@@ -1,3 +1,5 @@
+import Map from './map';
+
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -103,7 +105,7 @@ export default function PersistentDrawerRight() {
       </AppBar>
       <Main open={open}>
         <DrawerHeader />
-        <Typography>Insert map container here</Typography>
+        <Map/>
       </Main>
       <Drawer
         sx={{

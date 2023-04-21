@@ -1,11 +1,5 @@
-import Map from "@/components/map";
-import Navbar from "@/components/navbar";
+import PersistentDrawerRight from "@/components/drawer";
 
 export default function mapPage() {
-  return (
-    <>
-      <Navbar />
-      <Map />
-    </>
-  );
+  return  <PersistentDrawerRight />;
 }
