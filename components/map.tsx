@@ -23,7 +23,7 @@ export default function Map() {
 
   return (
     <div>
-      <div ref={mapContainer} className="map-container" />
+      <div ref={mapContainer} className="relative inset-0 w-screen h-screen" />
     </div>
   );
 };
