@@ -21,6 +21,7 @@ export default function Map() {
     });
   });
 
+  //credits not showing
   return (
     <div>
       <div ref={mapContainer} className="relative inset-0 w-screen h-screen" />

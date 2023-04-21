@@ -1,5 +1,5 @@
-import PersistentDrawerRight from "@/components/drawer";
+import Map from "@/components/map";
 
 export default function mapPage() {
-  return  <PersistentDrawerRight />;
+  return  <Map />;
 }
