@@ -9,7 +9,7 @@ export default function showTest() {
     <>
     <ScrollDialog info="Map information"/>
     <KeepMountedModal>
-        <Typography>Hello world</Typography>
+        <Typography>This is a wrapped typography component</Typography>
     </KeepMountedModal>
     <TransitionsModal main="Message" description="Message description"/>
     <PostCard/>
