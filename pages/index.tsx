@@ -4,7 +4,6 @@ import { Inter } from "@next/font/google";
 import BaseMap from "@/components/basemap";
 import MainAppBar from "@/components/appbar";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -17,9 +16,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/*<MainAppBar>*/}
-        <main className="container">
-          <BaseMap />
-        </main>
+      <main className="container">
+        <BaseMap />
+        {/** 
+          <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+            {cardContent}
+          </Drawer>
+           */}
+      </main>
       {/*</MainAppBar>*/}
     </>
   );
