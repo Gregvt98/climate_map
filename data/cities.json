@@ -1,0 +1,58 @@
+[
+    {
+      "city": "London",
+      "population": "8,908,081",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/London_Montage_L.jpg/240px-London_Montage_L.jpg",
+      "country": "United Kingdom",
+      "latitude": 51.5072,
+      "longitude": -0.1276
+    },
+    {
+      "city": "Paris",
+      "population": "2,161,000",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Paris_skyline_from_the_top_of_the_Eiffel_Tower_June_2021.jpg/240px-Paris_skyline_from_the_top_of_the_Eiffel_Tower_June_2021.jpg",
+      "country": "France",
+      "latitude": 48.8566,
+      "longitude": 2.3522
+    },
+    {
+      "city": "Madrid",
+      "population": "3,266,126",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Madrid_Skyline_2019.jpg/240px-Madrid_Skyline_2019.jpg",
+      "country": "Spain",
+      "latitude": 40.4168,
+      "longitude": -3.7038
+    },
+    {
+      "city": "Berlin",
+      "population": "3,769,495",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Berlin-Skyline-Mitte.jpg/240px-Berlin-Skyline-Mitte.jpg",
+      "country": "Germany",
+      "latitude": 52.5200,
+      "longitude": 13.4050
+    },
+    {
+      "city": "Rome",
+      "population": "2,837,332",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Rome_Italy_View_from_Capitoline_Hill_01.jpg/240px-Rome_Italy_View_from_Capitoline_Hill_01.jpg",
+      "country": "Italy",
+      "latitude": 41.9028,
+      "longitude": 12.4964
+    },
+    {
+      "city": "Vienna",
+      "population": "1,921,640",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Wien_Hofburg_Luftbild_2013.jpg/240px-Wien_Hofburg_Luftbild_2013.jpg",
+      "country": "Austria",
+      "latitude": 48.2082,
+      "longitude": 16.3738
+    },
+    {
+      "city": "Athens",
+      "population": "664,046",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Acropolis%2C_Athens%2C_Greece.jpg/240px-Acropolis%2C_Athens%2C_Greece.jpg",
+      "country": "Greece",
+      "latitude": 37.9838,
+      "longitude": 23.7275
+    }
+]

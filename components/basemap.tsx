@@ -1,11 +1,13 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState, useMemo} from "react";
 import Map, { GeolocateControl, NavigationControl, Marker } from "react-map-gl";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import GeocoderControl from "./geocoder-control";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { fetchData } from '../utils/api';
+
+import CITIES from '../data/cities.json';
 
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -16,12 +18,26 @@ export default function BaseMap() {
     zoom: 8,
   });
 
-  useEffect(() => {
-    const dataPromise = fetchData('http://localhost:3000/api/cities');
-    dataPromise.then(data => {
-      console.log(data);
-    });
-  }, []);
+  const pins = useMemo(
+    () =>
+      CITIES.map((city, index) => (
+        <Marker
+          key={`marker-${index}`}
+          longitude={city.longitude}
+          latitude={city.latitude}
+          anchor="bottom"
+          onClick={e => {
+            // If we let the click event propagates to the map, it will immediately close the popup
+            // with `closeOnClick: true`
+            e.originalEvent.stopPropagation();
+            {/*setPopupInfo(city);*/}
+          }}
+        >
+          <LocationOnIcon />
+        </Marker>
+      )),
+    []
+  );
 
   return (
     <Map
@@ -37,9 +53,7 @@ export default function BaseMap() {
         position="top-left"
       />
       <NavigationControl />
-      <Marker longitude={4.9} latitude={52.4} anchor="bottom">
-        <LocationOnIcon />
-      </Marker>
+      {pins}
     </Map>
   );
 }
