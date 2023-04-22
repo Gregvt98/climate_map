@@ -79,6 +79,7 @@ export default function PersistentDrawer({feature}) {
       variant="persistent"
       anchor="left"
       open={open}
+      //onClose={onclose} set currentFeature to null with inverse data flow
     >
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
@@ -90,12 +91,7 @@ export default function PersistentDrawer({feature}) {
         </IconButton>
       </DrawerHeader>
       <PostCard
-        data={{
-          title: "Post title",
-          date: "12/04/2023",
-          content: "Some content",
-          image_url: "http://source.unsplash.com/random",
-        }}
+        data={feature}
       />
     </Drawer>
   );

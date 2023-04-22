@@ -28,18 +28,18 @@ export default function PostCard({data}) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={data.title}
-        subheader={data.date}
+        title={`City: ${data.city}`}
+        subheader={`Population: ${data.population}`}
       />
       <CardMedia
         component="img"
         height="194"
-        image={data.image_url}
+        image={data.image}
         alt="Image description"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-        {data.content}
+        {data.country}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

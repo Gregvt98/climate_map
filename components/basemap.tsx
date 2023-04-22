@@ -62,26 +62,7 @@ export default function BaseMap() {
         />
         <NavigationControl />
         {pins}
-        {currentFeature && (
-          <Popup
-            anchor="top"
-            longitude={Number(currentFeature.longitude)}
-            latitude={Number(currentFeature.latitude)}
-            onClose={() => setCurrentFeature(null)}
-          >
-            <div>
-              {currentFeature.city}, {currentFeature.state} |{" "}
-              <a
-                target="_new"
-                href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${currentFeature.city}, ${currentFeature.state}`}
-              >
-                Wikipedia
-              </a>
-            </div>
-            <img width="100%" src={currentFeature.image} />
-          </Popup>
-        )}
-        <PersistentDrawer feature={currentFeature}/>
+        {currentFeature && (<PersistentDrawer feature={currentFeature}/>)}
       </Map>
     </>
   );
