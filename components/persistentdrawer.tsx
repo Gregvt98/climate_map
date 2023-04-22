@@ -53,7 +53,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawer({feature}) {
+export default function PersistentDrawer({feature, onClose}) {
   //still need to pass feature data to child post card
   const theme = useTheme();
   const [open, setOpen] = useState(true);
@@ -64,6 +64,7 @@ export default function PersistentDrawer({feature}) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+    onClose(null); //sets currentFeature to null on drawer close
   };
 
   return (
@@ -79,7 +80,6 @@ export default function PersistentDrawer({feature}) {
       variant="persistent"
       anchor="left"
       open={open}
-      //onClose={onclose} set currentFeature to null with inverse data flow
     >
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>

@@ -62,7 +62,7 @@ export default function BaseMap() {
         />
         <NavigationControl />
         {pins}
-        {currentFeature && (<PersistentDrawer feature={currentFeature}/>)}
+        {currentFeature && (<PersistentDrawer feature={currentFeature} onClose={setCurrentFeature}/>)}
       </Map>
     </>
   );
