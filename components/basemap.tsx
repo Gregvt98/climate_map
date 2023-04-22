@@ -13,6 +13,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { fetchData } from "../utils/api";
 
 import CITIES from "../data/cities.json";
+import PersistentDrawer from "./persistentdrawer";
 
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -80,6 +81,7 @@ export default function BaseMap() {
             <img width="100%" src={currentFeature.image} />
           </Popup>
         )}
+        <PersistentDrawer/>
       </Map>
     </>
   );

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import BaseMap from "@/components/basemap";
 import MainAppBar from "@/components/appbar";
+import PersistentDrawer from "@/components/persistentdrawer";
 
 const inter = Inter({ subsets: ["latin"] });
 
