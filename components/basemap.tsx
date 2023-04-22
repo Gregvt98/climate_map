@@ -81,7 +81,7 @@ export default function BaseMap() {
             <img width="100%" src={currentFeature.image} />
           </Popup>
         )}
-        <PersistentDrawer/>
+        <PersistentDrawer feature={currentFeature}/>
       </Map>
     </>
   );

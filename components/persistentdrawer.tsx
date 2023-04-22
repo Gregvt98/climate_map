@@ -53,8 +53,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawer() {
-  const data = "Hello, world!";
+export default function PersistentDrawer({feature}) {
+  //still need to pass feature data to child post card
   const theme = useTheme();
   const [open, setOpen] = useState(true);
 
