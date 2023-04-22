@@ -18,8 +18,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import { useState } from "react";
 
 import Button from "@mui/material/Button";
+import PostCard from "./card";
 
 const drawerWidth = 400;
 
@@ -51,9 +53,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawer() {
+  const data = "Hello, world!";
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -86,7 +89,14 @@ export default function PersistentDrawerLeft() {
           )}
         </IconButton>
       </DrawerHeader>
-      <Typography>Render cards here</Typography>
+      <PostCard
+        data={{
+          title: "Post title",
+          date: "12/04/2023",
+          content: "Some content",
+          image_url: "http://source.unsplash.com/random",
+        }}
+      />
     </Drawer>
   );
 }

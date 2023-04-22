@@ -3,10 +3,14 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import BaseMap from "@/components/basemap";
 import MainAppBar from "@/components/appbar";
+import PersistentDrawerLeft from "@/components/persistentdrawer";
+import { Typography } from "@mui/material";
+import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+
   return (
     <>
       <Head>
@@ -18,11 +22,6 @@ export default function Home() {
       {/*<MainAppBar>*/}
       <main className="container">
         <BaseMap />
-        {/** 
-          <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-            {cardContent}
-          </Drawer>
-           */}
       </main>
       {/*</MainAppBar>*/}
     </>
