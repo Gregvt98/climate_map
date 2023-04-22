@@ -68,6 +68,7 @@ export default function PersistentDrawer({feature, onClose}) {
   };
 
   return (
+    <>
     <Drawer
       sx={{
         width: drawerWidth,
@@ -94,5 +95,6 @@ export default function PersistentDrawer({feature, onClose}) {
         data={feature}
       />
     </Drawer>
+  </>
   );
 }

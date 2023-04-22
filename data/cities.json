@@ -54,5 +54,13 @@
       "country": "Greece",
       "latitude": 37.9838,
       "longitude": 23.7275
-    }
+    },
+    {
+      "city": "Amsterdam",
+      "population": "872,680",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Amsterdam_Skyline_%28cropped%29.jpg/240px-Amsterdam_Skyline_%28cropped%29.jpg",
+      "country": "Netherlands",
+      "latitude": 52.3702,
+      "longitude": 4.8952
+  }
 ]
