@@ -116,6 +116,7 @@ export default function PostForm() {
         label="Location"
         variant="outlined"
         value={location}
+        required
         onChange={handleLocationChange}
       />
       <FormControl className="" component="fieldset">
