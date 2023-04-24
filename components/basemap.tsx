@@ -13,6 +13,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { fetchData } from "../utils/api";
 
 import CITIES from "../data/cities.json";
+import POSTS from "../data/posts.json";
 import PersistentDrawer from "./persistentdrawer";
 
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
@@ -25,22 +26,22 @@ export default function BaseMap() {
   });
   const [currentFeature, setCurrentFeature] = useState(null);
 
-  const pins = useMemo(
+  const posts = useMemo(
     () =>
-      CITIES.map((city, index) => (
+      POSTS.map((post, index) => (
         <Marker
           key={`marker-${index}`}
-          longitude={city.longitude}
-          latitude={city.latitude}
+          longitude={post.longitude}
+          latitude={post.latitude}
           anchor="bottom"
           onClick={(e) => {
             // If we let the click event propagates to the map, it will immediately close the popup
             // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
-            setCurrentFeature(city);
+            setCurrentFeature(post);
           }}
         >
-          <LocationOnIcon />
+          <LocationOnIcon color="error" />
         </Marker>
       )),
     []
@@ -61,7 +62,7 @@ export default function BaseMap() {
           position="top-left"
         />
         <NavigationControl />
-        {pins}
+        {posts}
         {currentFeature && (<PersistentDrawer feature={currentFeature} onClose={setCurrentFeature}/>)}
       </Map>
     </>

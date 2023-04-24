@@ -22,6 +22,7 @@ import { useState } from "react";
 
 import Button from "@mui/material/Button";
 import PostCard from "./card";
+import SentimentCard from "./sentimentcard";
 
 const drawerWidth = 400;
 
@@ -91,8 +92,7 @@ export default function PersistentDrawer({feature, onClose}) {
           )}
         </IconButton>
       </DrawerHeader>
-      <PostCard
-        data={feature}
+      <SentimentCard data={feature}
       />
     </Drawer>
   </>
