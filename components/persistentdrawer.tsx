@@ -54,7 +54,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawer({feature, onClose}) {
+export default function PersistentDrawer({children, onClose}) {
   //still need to pass feature data to child post card
   const theme = useTheme();
   const [open, setOpen] = useState(true);
@@ -92,8 +92,7 @@ export default function PersistentDrawer({feature, onClose}) {
           )}
         </IconButton>
       </DrawerHeader>
-      <SentimentCard data={feature}
-      />
+      {children}
     </Drawer>
   </>
   );

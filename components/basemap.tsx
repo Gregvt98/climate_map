@@ -15,6 +15,7 @@ import { fetchData } from "../utils/api";
 import CITIES from "../data/cities.json";
 import POSTS from "../data/posts.json";
 import PersistentDrawer from "./persistentdrawer";
+import SentimentCard from "./sentimentcard";
 
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -63,7 +64,13 @@ export default function BaseMap() {
         />
         <NavigationControl />
         {posts}
-        {currentFeature && (<PersistentDrawer feature={currentFeature} onClose={setCurrentFeature}/>)}
+        {currentFeature && (
+          <PersistentDrawer
+            onClose={setCurrentFeature}
+          >
+            <SentimentCard data={currentFeature} />
+          </PersistentDrawer>
+        )}
       </Map>
     </>
   );
