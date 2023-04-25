@@ -17,15 +17,44 @@ import {
 import CancelIcon from "@mui/icons-material/Cancel";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { useEffect } from "react";
 
-const defaultLocation = "Default location";
+//const defaultLocation = "Default location";
+
+const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN;
 
 export default function PostForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [location, setLocation] = useState(defaultLocation);
+  const [coordinates, setCoordinates] = useState("");
+  const [location, setLocation] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [media, setMedia] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
+      // Your client-side code that uses window and navigator objects
+      navigator.geolocation.getCurrentPosition(async function(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        //setCoordinates(`${lon}, ${lat}`) //setting coordinates
+        //console.log(coordinates);
+        //console.log("Latitude is :", lat);
+        //console.log("Longitude is :", lon);
+        try {
+          const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${mapboxToken}`);
+          const jsonData = await response.json();
+          const place_name = jsonData.features[0]["place_name"];
+          console.log(place_name); //gets place name of best guess based on coordinates
+          setLocation(place_name)
+        } catch (error) {
+          console.error(error);
+          return [];
+        }
+      });
+    }
+  }, []);
+
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -50,13 +79,14 @@ export default function PostForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // submit form data to server
+
   };
 
   const handleCancel = () => {
     // reset form data
     setTitle("");
     setContent("");
-    setLocation(defaultLocation);
+    setLocation("");
     setAnonymous(false);
     setMedia(null);
   };
