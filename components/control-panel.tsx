@@ -14,7 +14,6 @@ export default function ControlPanel(props: {events: Record<string, LngLat>; mar
   const router = useRouter();
   const handleClick = (e) => {
     e.preventDefault();
-    //include 
     router.push({
         pathname: '/create-post',
         query: { lon: props.marker.longitude, lat: props.marker.latitude },
@@ -24,8 +23,8 @@ export default function ControlPanel(props: {events: Record<string, LngLat>; mar
 
   return (
     <div className="absolute top-0 right-12 max-w-[320px] bg-white shadow-md p-4 mt-2 text-sm text-gray-600 outline-none">
-      <h3>Draggable Marker</h3>
-      <p>Drag marker to a location to log a sentiment </p>
+      <h3 className="uppercase">Draggable Marker</h3>
+      <p>Drag marker to a location to log a sentiment.</p>
       <div>
         {eventNames.map((eventName) => {
           const { events = {} } = props;

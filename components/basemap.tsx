@@ -29,8 +29,8 @@ export default function BaseMap() {
     latitude: 52.3,
     zoom: 8,
   });
+  const [posts, setPosts] = useState([]);
   const [currentFeature, setCurrentFeature] = useState(null);
-
   const [marker, setMarker] = useState({
     longitude: 4.9,
     latitude: 52.3,
@@ -54,6 +54,24 @@ export default function BaseMap() {
     logEvents((_events) => ({ ..._events, onDragEnd: event.lngLat }));
   }, []);
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/api/v1/posts/?limit=20&q=positive"
+        );
+        const data = await response.json();
+        setPosts(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  /** 
   const posts = useMemo(
     () =>
       POSTS.map((post, index) => (
@@ -74,6 +92,7 @@ export default function BaseMap() {
       )),
     []
   );
+  */
 
   return (
     <>
@@ -91,8 +110,23 @@ export default function BaseMap() {
         />
         <NavigationControl />
         <ControlPanel events={events} marker={marker} />
-
-        {posts}
+        
+        {posts.map((post) => (
+          <Marker
+            key={post.id}
+            latitude={post.latitude}
+            longitude={post.longitude}
+            anchor="bottom"
+            onClick={(e) => {
+              // If we let the click event propagates to the map, it will immediately close the popup
+              // with `closeOnClick: true`
+              e.originalEvent.stopPropagation();
+              setCurrentFeature(post);
+            }}
+          >
+            <LocationOnIcon color="secondary" fontSize="medium" />
+          </Marker>
+        ))}
 
         {currentFeature && (
           <PersistentDrawer onClose={setCurrentFeature}>
