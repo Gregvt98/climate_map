@@ -16,45 +16,46 @@ import {
 //import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import CancelIcon from "@mui/icons-material/Cancel";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 //const defaultLocation = "Default location";
 
 const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN;
+let access_token;
+
+async function reverse_geocoding(lon, lat) {
+  try {
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${mapboxToken}`
+    );
+    const jsonData = await response.json();
+    const place = jsonData.features[0]["place_name"];
+    console.log(place);
+    return place;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
 
 export default function PostForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [coordinates, setCoordinates] = useState("");
   const [location, setLocation] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [media, setMedia] = useState(null);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
-      // Your client-side code that uses window and navigator objects
-      navigator.geolocation.getCurrentPosition(async function(position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        //setCoordinates(`${lon}, ${lat}`) //setting coordinates
-        //console.log(coordinates);
-        //console.log("Latitude is :", lat);
-        //console.log("Longitude is :", lon);
-        try {
-          const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${mapboxToken}`);
-          const jsonData = await response.json();
-          const place_name = jsonData.features[0]["place_name"];
-          console.log(place_name); //gets place name of best guess based on coordinates
-          setLocation(place_name)
-        } catch (error) {
-          console.error(error);
-          return [];
-        }
-      });
-    }
-  }, []);
+  const router = useRouter();
+  const { lon, lat } = router.query;
 
+  //get access token on component load
+  useEffect(() => {
+    const access_token = localStorage.getItem("access_token");
+    //setAccessToken(access_token);
+    console.log(access_token);
+  }, []);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -62,10 +63,6 @@ export default function PostForm() {
 
   const handleContentChange = (event) => {
     setContent(event.target.value);
-  };
-
-  const handleLocationChange = (event) => {
-    setLocation(event.target.value);
   };
 
   const handleAnonymousChange = (event) => {
@@ -78,8 +75,29 @@ export default function PostForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const lon_float = parseFloat(lon);
+    const lat_float = parseFloat(lat);
     // submit form data to server
+    const postData = {
+      title: title,
+      content: content,
+      longitude: lon_float,
+      latitude: lat_float,
+    };
 
+    console.log(postData);
+
+    fetch("http://localhost:8000/api/v1/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjbGltYXRlX2FueGlldHlfbWFwLmNvbSIsInBlcm1pc3Npb25zIjoiYWRtaW4iLCJleHAiOjE2ODM5MDI5NDh9.uO_ZWm1-oD3GG1fq8RQ1Z8zkeV53na2b5JyZxHWFa30`,
+      },
+      body: JSON.stringify(postData),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
   };
 
   const handleCancel = () => {
@@ -93,94 +111,91 @@ export default function PostForm() {
 
   return (
     <div className="container mx-auto px-4">
-    <form className="flex flex-col items-center mt-2" onSubmit={handleSubmit}>
-      <TextField
-        className="w-1/2 mt-2"
-        label="Title"
-        variant="outlined"
-        required
-        value={title}
-        onChange={handleTitleChange}
-      />
-      <TextField
-        className="w-1/2 mt-2"
-        label="Content"
-        variant="outlined"
-        required
-        multiline
-        rows={4}
-        value={content}
-        onChange={handleContentChange}
-      />
-      <input
-        accept="image/*"
-        className="hidden"
-        id="media-input"
-        type="file"
-        onChange={handleMediaChange}
-      />
-      <div className="flex items-center justify-center mt-2 border-2 border-dashed w-1/2">
-        <label htmlFor="media-input">
-          <IconButton component="span">
-            <Typography>Select a file to upload</Typography>
-            <FileUploadIcon/>
-          </IconButton>
-        </label>
-        {media && (
-          <div className="flex items-center">
-            <img
-              className=""
-              src={media}
-              alt="Preview"
-              height="64"
-              width="64"
-            />
-            <IconButton size="small" onClick={() => setMedia(null)}>
-              <CancelIcon />
+      <form className="flex flex-col items-center mt-2" onSubmit={handleSubmit}>
+        <TextField
+          className="w-1/2 mt-2"
+          label="Title"
+          variant="outlined"
+          required
+          value={title}
+          onChange={handleTitleChange}
+        />
+        <TextField
+          className="w-1/2 mt-2"
+          label="Content"
+          variant="outlined"
+          required
+          multiline
+          rows={4}
+          value={content}
+          onChange={handleContentChange}
+        />
+        <input
+          accept="image/*"
+          className="hidden"
+          id="media-input"
+          type="file"
+          onChange={handleMediaChange}
+        />
+        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-1/2">
+          <label htmlFor="media-input">
+            <IconButton component="span">
+              <Typography>Select a file to upload</Typography>
+              <FileUploadIcon />
             </IconButton>
-          </div>
-        )}
-      </div>
-      <TextField
-        className="w-1/2 mt-2"
-        label="Location"
-        variant="outlined"
-        value={location}
-        required
-        onChange={handleLocationChange}
-      />
-      <FormControl className="" component="fieldset">
-        <div className="flex items-center space-x-2">
-        <FormLabel component="legend">Share anonymously?</FormLabel>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox checked={anonymous} onChange={handleAnonymousChange} />
-            }
-            label="Yes"
-          />
-        </FormGroup>
+          </label>
+          {media && (
+            <div className="flex items-center">
+              <img
+                className=""
+                src={media}
+                alt="Preview"
+                height="64"
+                width="64"
+              />
+              <IconButton size="small" onClick={() => setMedia(null)}>
+                <CancelIcon />
+              </IconButton>
+            </div>
+          )}
         </div>
-      </FormControl>
-      <div className="flex justify-center space-x-4">
-        <Button
-          className=""
+        <TextField
+          className="w-1/2 mt-2"
+          label="Coordinates"
           variant="outlined"
-          color="error"
-          onClick={handleCancel}
-        >
-          Cancel
-        </Button>
-        <Button
-          className=""
-          variant="outlined"
-          color="primary"
-          type="submit"
-        >
-          Submit
-        </Button>
-      </div>
-    </form>
+          value={`${lon},${lat}`}
+          //onChange={handleCoordinatesChange}
+        />
+        <FormControl className="" component="fieldset">
+          <div className="flex items-center space-x-2">
+            <FormLabel component="legend">Share anonymously?</FormLabel>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={anonymous}
+                    onChange={handleAnonymousChange}
+                  />
+                }
+                label="Yes"
+              />
+            </FormGroup>
+          </div>
+        </FormControl>
+        <div className="flex justify-center space-x-4">
+          <Button
+            className=""
+            variant="outlined"
+            color="error"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+          <Button className="" variant="outlined" color="primary" type="submit">
+            Submit
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }
