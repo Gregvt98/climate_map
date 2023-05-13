@@ -4,21 +4,18 @@ import Map, {
   GeolocateControl,
   NavigationControl,
   Marker,
-  Popup,
 } from "react-map-gl";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import type { MarkerDragEvent, LngLat } from "react-map-gl";
+import { useRouter } from "next/router";
+
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { Typography } from "@mui/material";
 
 import GeocoderControl from "./geocoder-control";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { fetchData } from "../utils/api";
-
-import CITIES from "../data/cities.json";
-import POSTS from "../data/posts.json";
 import PersistentDrawer from "./persistentdrawer";
 import SentimentCard from "./sentimentcard";
 import BasicModal from "./modal";
-import { Typography } from "@mui/material";
 import ControlPanel from "./control-panel";
 
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
@@ -32,8 +29,8 @@ export default function BaseMap() {
   const [posts, setPosts] = useState([]);
   const [currentFeature, setCurrentFeature] = useState(null);
   const [marker, setMarker] = useState({
-    longitude: 4.9,
-    latitude: 52.3,
+    longitude: viewState.longitude,
+    latitude: viewState.latitude,
   });
   const [events, logEvents] = useState<Record<string, LngLat>>({});
 
@@ -54,45 +51,42 @@ export default function BaseMap() {
     logEvents((_events) => ({ ..._events, onDragEnd: event.lngLat }));
   }, []);
 
+  //set version
+  const router = useRouter();
+  const queryParam = router.query.version;
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8000/api/v1/posts/?limit=20&q=positive"
-        );
-        const data = await response.json();
-        setPosts(data);
-        console.log(data);
+        if (queryParam == "a") {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/posts/?limit=50&q=positive`
+          );
+          const data = await response.json();
+          setPosts(data);
+          console.log(data);
+        } else if (queryParam == "b") {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/posts/?limit=50&q=negative`
+          );
+          const data = await response.json();
+          setPosts(data);
+          console.log(data);
+        } else {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/posts/?limit=50`
+          );
+          const data = await response.json();
+          setPosts(data);
+          console.log(data);
+        }
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
     };
 
     fetchPosts();
-  }, []);
-
-  /** 
-  const posts = useMemo(
-    () =>
-      POSTS.map((post, index) => (
-        <Marker
-          key={`marker-${index}`}
-          longitude={post.longitude}
-          latitude={post.latitude}
-          anchor="bottom"
-          onClick={(e) => {
-            // If we let the click event propagates to the map, it will immediately close the popup
-            // with `closeOnClick: true`
-            e.originalEvent.stopPropagation();
-            setCurrentFeature(post);
-          }}
-        >
-          <LocationOnIcon color="error" />
-        </Marker>
-      )),
-    []
-  );
-  */
+  }, [queryParam]);
 
   return (
     <>
@@ -110,7 +104,7 @@ export default function BaseMap() {
         />
         <NavigationControl />
         <ControlPanel events={events} marker={marker} />
-        
+
         {posts.map((post) => (
           <Marker
             key={post.id}
