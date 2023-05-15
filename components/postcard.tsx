@@ -17,9 +17,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import List from '@mui/material/List';
+import List from "@mui/material/List";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
 
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
@@ -52,25 +53,44 @@ function CenteredTabs() {
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Tabs value={value} onChange={handleChange} centered>
         <Tab label="Overview" />
-        <Tab label="Reply" />
+        <Tab label="Comments" />
       </Tabs>
     </Box>
   );
 }
 
-export default function SentimentCard({ data }) {
+export default function PostCard({ data }) {
   const [expanded, setExpanded] = React.useState(false);
+  const [sentiment_analysis, setSentimentAnalysis] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchSentimentAnalysis = async () => {
+      try {
+        const url = `http://localhost:8000/api/v1/analysis/post/${data.id}`;
+        const response = await fetch(url);
+        const sentiment_data = await response.json();
+        setSentimentAnalysis(sentiment_data);
+        console.log(sentiment_analysis);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchSentimentAnalysis();
+  }, [data]); //make new call when data card data changes
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  var date = new Date(data.created_at).toDateString();
+
   return (
     <Card className="w-full h-full">
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
+            {data.user.first_name ? data.user.first_name[0].toUpperCase() : "A"}
           </Avatar>
         }
         action={
@@ -78,62 +98,47 @@ export default function SentimentCard({ data }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={data.title}
-        subheader={`User ID: ${data.user_id}`}
+        title= {data.user.first_name && data.user.last_name ? data.user.first_name + " " + data.user.last_name: data.user.email}
+        subheader={date}
       />
-      <CardMedia
-        component="img"
-        height="194"
-        image={data.image_url}
-        alt="Post image"
-      />
-      <CenteredTabs />
+      {data.image_url ? (
+        <CardMedia
+          component="img"
+          height="194"
+          image={data.image_url}
+          alt="Post image"
+        />
+      ) : null}
       <CardContent>
+        <div className="">
+        <Typography variant="h6" color="text.primary">
+          {data.title}
+        </Typography>
         <Typography variant="body2" color="text.secondary">
           {data.content}
         </Typography>
+        </div>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="save">
-          <SaveIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
-      </CardActions>
+      <CenteredTabs />
+      <CardActions disableSpacing></CardActions>
       <div className="flex flex-col justify-start">
         <List>
           <ListItemButton>
             <ListItemIcon>
               <LocationOnIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary={`Lat: ${data.latitude}, Lon: ${data.longitude}`} />
+            <ListItemText
+              primary={`Lat: ${data.latitude}, Lon: ${data.longitude}`}
+            />
           </ListItemButton>
           <ListItemButton>
             <ListItemIcon>
-              <AccessTimeIcon color="primary"/>
+              <SentimentNeutralIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary={`Shared: ${data.created_at}`} />
+            <ListItemText primary={`Sentiment: ${sentiment_analysis.type}`} />
           </ListItemButton>
         </List>
       </div>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Some more details about the post</Typography>
-          <Typography paragraph>lorem ipsum...</Typography>
-        </CardContent>
-      </Collapse>
     </Card>
   );
 }
