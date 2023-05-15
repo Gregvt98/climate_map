@@ -1,22 +1,21 @@
 import * as React from "react";
 import { useEffect, useState, useMemo, useCallback } from "react";
-import Map, {
-  GeolocateControl,
-  NavigationControl,
-  Marker,
-} from "react-map-gl";
+import Map, { GeolocateControl, NavigationControl, Marker } from "react-map-gl";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import type { MarkerDragEvent, LngLat } from "react-map-gl";
 import { useRouter } from "next/router";
 
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Typography } from "@mui/material";
+import Button from "@mui/material";
 
 import GeocoderControl from "./geocoder-control";
-import PersistentDrawer from "./persistentdrawer";
-import SentimentCard from "./sentimentcard";
+import PostCard from "./postcard";
 import BasicModal from "./modal";
 import ControlPanel from "./control-panel";
+import NewsFeed from "./newsfeed";
+import SidePanel from "./sidepanel";
+import InfoDialog from "./infodialog";
 
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -97,13 +96,16 @@ export default function BaseMap() {
         mapStyle="mapbox://styles/mapbox/streets-v12"
         mapboxAccessToken={mapboxgl.accessToken}
       >
-        <GeolocateControl />
+        <GeolocateControl position="bottom-right" />
         <GeocoderControl
           mapboxAccessToken={mapboxgl.accessToken}
           position="top-left"
         />
-        <NavigationControl />
-        <ControlPanel events={events} marker={marker} />
+        <NavigationControl position="bottom-right" />
+        <ControlPanel
+          events={events}
+          marker={marker}
+        />
 
         {posts.map((post) => (
           <Marker
@@ -123,9 +125,9 @@ export default function BaseMap() {
         ))}
 
         {currentFeature && (
-          <PersistentDrawer onClose={setCurrentFeature}>
-            <SentimentCard data={currentFeature} />
-          </PersistentDrawer>
+          <SidePanel onClose={setCurrentFeature}>
+            <PostCard data={currentFeature} />
+          </SidePanel>
         )}
 
         <Marker
@@ -139,6 +141,10 @@ export default function BaseMap() {
         >
           <LocationOnIcon color="primary" fontSize="large" />
         </Marker>
+
+        <InfoDialog/>
+
+        <NewsFeed />
       </Map>
     </>
   );
