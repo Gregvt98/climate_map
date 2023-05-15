@@ -46,7 +46,7 @@ export default function SignIn() {
       const data = await login(email, password);
 
       if (data) {
-        router.push("/map-a");
+        router.push("/");
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -75,7 +75,7 @@ export default function SignIn() {
           required
           fullWidth
           id="email"
-          label="Email Address"
+          //label="Email Address"
           name="email"
           autoComplete="email"
           autoFocus
@@ -87,14 +87,14 @@ export default function SignIn() {
           required
           fullWidth
           name="password"
-          label="Password"
+          //label="Password"
           type="password"
           id="password"
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button variant="contained" type="submit" fullWidth>Log in</Button>
+        <Button variant="outlined" type="submit" fullWidth>Log in</Button>
       </form>
     </div>
   );
