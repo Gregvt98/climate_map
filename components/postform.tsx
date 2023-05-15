@@ -46,6 +46,7 @@ export default function PostForm() {
   const [location, setLocation] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [media, setMedia] = useState(null);
+  const [access_token, setAccessToken] = useState("");
 
   const router = useRouter();
   const { lon, lat } = router.query;
@@ -53,8 +54,11 @@ export default function PostForm() {
   //get access token on component load
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
-    //setAccessToken(access_token);
-    console.log(access_token);
+    if (!access_token) {
+      alert("No access token found. Make sure you are logged in.")
+    }
+    console.log("access token: ", access_token);
+    setAccessToken(access_token);
   }, []);
 
   const handleTitleChange = (event) => {
@@ -85,18 +89,22 @@ export default function PostForm() {
       latitude: lat_float,
     };
 
-    console.log(postData);
+    //console.log(postData);
 
     fetch("http://localhost:8000/api/v1/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjbGltYXRlX2FueGlldHlfbWFwLmNvbSIsInBlcm1pc3Npb25zIjoiYWRtaW4iLCJleHAiOjE2ODM5MDI5NDh9.uO_ZWm1-oD3GG1fq8RQ1Z8zkeV53na2b5JyZxHWFa30`,
+        Authorization: `Bearer ${access_token}`,
       },
       body: JSON.stringify(postData),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data)
+        alert("New post created!")
+        router.back() //go to previous page
+      })
       .catch((error) => console.error(error));
   };
 
@@ -111,7 +119,7 @@ export default function PostForm() {
 
   return (
     <div className="container mx-auto px-4">
-      <form className="flex flex-col items-center mt-2" onSubmit={handleSubmit}>
+      <form className="flex flex-col justify-center items-center mt-2" onSubmit={handleSubmit}>
         <TextField
           className="w-1/2 mt-2"
           label="Title"
@@ -137,7 +145,7 @@ export default function PostForm() {
           type="file"
           onChange={handleMediaChange}
         />
-        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-1/2">
+        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-1/2 bt-2">
           <label htmlFor="media-input">
             <IconButton component="span">
               <Typography>Select a file to upload</Typography>
