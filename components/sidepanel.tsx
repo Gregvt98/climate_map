@@ -22,7 +22,7 @@ import { useState } from "react";
 
 import Button from "@mui/material/Button";
 import PostCard from "./card";
-import SentimentCard from "./sentimentcard";
+import SentimentCard from "./postcard";
 
 const drawerWidth = 400;
 
@@ -54,7 +54,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentDrawer({children, onClose}) {
+export default function SidePanel({children, onClose}) {
   //still need to pass feature data to child post card
   const theme = useTheme();
   const [open, setOpen] = useState(true);
@@ -79,11 +79,13 @@ export default function PersistentDrawer({children, onClose}) {
           boxSizing: "border-box",
         },
       }}
-      variant="persistent"
       anchor="left"
       open={open}
+      //variant="persistent"
+      onClose={handleDrawerClose}
     >
-      <DrawerHeader>
+      {/**
+       <DrawerHeader className="shadow-none outline-none border-0">
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "ltr" ? (
             <ChevronLeftIcon />
@@ -92,6 +94,7 @@ export default function PersistentDrawer({children, onClose}) {
           )}
         </IconButton>
       </DrawerHeader>
+       */}
       {children}
     </Drawer>
   </>
