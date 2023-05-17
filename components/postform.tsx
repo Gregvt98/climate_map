@@ -40,7 +40,7 @@ async function reverse_geocoding(lon, lat) {
   }
 }
 
-export default function PostForm() {
+export default function PostForm({lon, lat}) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [location, setLocation] = useState("");
@@ -48,8 +48,8 @@ export default function PostForm() {
   const [media, setMedia] = useState(null);
   const [access_token, setAccessToken] = useState("");
 
-  const router = useRouter();
-  const { lon, lat } = router.query;
+  //const router = useRouter();
+  //const { lon, lat } = router.query;
 
   //get access token on component load
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function PostForm() {
       .then((data) => {
         console.log(data)
         alert("New post created!")
-        router.back() //go to previous page
+        //router.back() //go to previous page
       })
       .catch((error) => console.error(error));
   };
@@ -119,9 +119,9 @@ export default function PostForm() {
 
   return (
     <div className="container mx-auto px-4">
-      <form className="flex flex-col justify-center items-center mt-2" onSubmit={handleSubmit}>
+      <form className="flex flex-col justify-center items-center mt-2 w-full" onSubmit={handleSubmit}>
         <TextField
-          className="w-1/2 mt-2"
+          className="w-full mt-2"
           label="Title"
           variant="outlined"
           required
@@ -129,7 +129,7 @@ export default function PostForm() {
           onChange={handleTitleChange}
         />
         <TextField
-          className="w-1/2 mt-2"
+          className="w-full mt-2"
           label="Content"
           variant="outlined"
           required
@@ -145,7 +145,7 @@ export default function PostForm() {
           type="file"
           onChange={handleMediaChange}
         />
-        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-1/2 bt-2">
+        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-full bt-2">
           <label htmlFor="media-input">
             <IconButton component="span">
               <Typography>Select a file to upload</Typography>
@@ -168,7 +168,7 @@ export default function PostForm() {
           )}
         </div>
         <TextField
-          className="w-1/2 mt-2"
+          className="w-full mt-2 bt-2"
           label="Coordinates"
           variant="outlined"
           value={`${lon},${lat}`}
@@ -197,7 +197,7 @@ export default function PostForm() {
             color="error"
             onClick={handleCancel}
           >
-            Cancel
+            Reset form data
           </Button>
           <Button className="" variant="outlined" color="primary" type="submit">
             Submit

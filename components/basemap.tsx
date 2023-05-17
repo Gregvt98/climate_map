@@ -16,6 +16,8 @@ import ControlPanel from "./control-panel";
 import NewsFeed from "./newsfeed";
 import SidePanel from "./sidepanel";
 import InfoDialog from "./infodialog";
+import KeepMountedModal from "./keepmountedmodal";
+import PostForm from "./postform";
 
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 
@@ -145,6 +147,10 @@ export default function BaseMap() {
         <InfoDialog/>
 
         <NewsFeed />
+
+        <KeepMountedModal>
+        <PostForm lon={marker.longitude} lat={marker.latitude}/>
+        </KeepMountedModal>
       </Map>
     </>
   );
