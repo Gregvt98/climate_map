@@ -25,7 +25,6 @@ export default NextAuth({
             {
               method: "Get",
               headers: { "Content-Type": "application/json" },
-              //body: JSON.stringify({ username, password })
             }
           );
           if (response.ok) {
@@ -37,19 +36,7 @@ export default NextAuth({
               hashed_password: data.hashed_password,
             };
             if (user && (await compare(password, user.hashed_password))) {
-              const formData = new FormData();
-              formData.append("username", username);
-              formData.append("password", password);
-              const response_token = await fetch(
-                "http://localhost:8000/api/token",
-                {
-                  method: "POST",
-                  body: formData,
-                }
-              );
-              const token_data = await response_token.json();
-              user["token"] = token_data.access_token;
-              //console.log(user);
+              console.log(user);
               // Return the user object
               return user;
             }
@@ -68,11 +55,13 @@ export default NextAuth({
     jwt: true,
   },
   callbacks: {
-    async jwt({ token, account, user }) {
+    async jwt({ token, account, profile }) {
         // Persist the OAuth access_token and or the user id to the token right after signin
         if (account) {
           token.accessToken = account.access_token
-          token.id = user.id
+          if (profile)  {
+            token.id = profile.id
+          }
         }
         return token
       },
@@ -80,7 +69,6 @@ export default NextAuth({
         // Send properties to the client, like an access_token and user id from a provider.
         session.accessToken = token.accessToken
         session.user.id = token.id
-        
         return session
       }
   }
