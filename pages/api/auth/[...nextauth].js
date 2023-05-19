@@ -5,10 +5,12 @@ import { compare } from "bcryptjs";
 
 export default NextAuth({
   providers: [
-    GoogleProvider({
+    /**
+     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+     */
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -55,12 +57,12 @@ export default NextAuth({
     jwt: true,
   },
   callbacks: {
-    async jwt({ token, account, profile }) {
+    async jwt({ token, account, user }) {
         // Persist the OAuth access_token and or the user id to the token right after signin
         if (account) {
           token.accessToken = account.access_token
-          if (profile)  {
-            token.id = profile.id
+          if (user)  {
+            token.id = user.id
           }
         }
         return token

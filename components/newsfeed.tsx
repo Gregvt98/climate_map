@@ -115,7 +115,7 @@ export default function NewsFeed() {
   //change to dynamic with use effect
   console.log(NEWS[0]);
   return (
-    <div className="absolute bottom-10 right-12 w-[310px] max-w-[310px] max-h-[580px] bg-white shadow-md p-4 mt-2 text-sm text-gray-600 outline-none overflow-auto">
+    <div className="absolute bottom-10 right-12 w-[310px] max-w-[310px] max-h-[520px] bg-white shadow-md p-4 mt-2 text-sm text-gray-600 outline-none overflow-auto">
       <div className="flex items-center flex-initial bg-gray-800 text-white py-4 pl-6 mt-2">
         <h5>News Feed</h5>
         <ExpandMore

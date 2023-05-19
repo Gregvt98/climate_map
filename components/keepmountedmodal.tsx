@@ -26,7 +26,7 @@ export default function KeepMountedModal({children}) {
   return (
     <div>
       <div className='absolute top-40 right-12 max-w-[320px]'>
-        <Button variant="contained" onClick={handleOpen}>Create a post</Button>
+        <Button className="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded" onClick={handleOpen}>Create a post</Button>
       </div>
       <Modal
         keepMounted
