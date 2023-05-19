@@ -91,67 +91,61 @@ export default function BaseMap() {
 
   return (
     <>
-      <Map
-        {...viewState}
-        onMove={(evt) => setViewState(evt.viewState)}
-        style={{ position: "absolute", width: "100%", height: "100%" }}
-        mapStyle="mapbox://styles/mapbox/streets-v12"
-        mapboxAccessToken={mapboxgl.accessToken}
-      >
-        <GeolocateControl position="bottom-right" />
-        <GeocoderControl
+      <div className="w-full h-full">
+        <Map
+          {...viewState}
+          onMove={(evt) => setViewState(evt.viewState)}
+          mapStyle="mapbox://styles/mapbox/streets-v12"
           mapboxAccessToken={mapboxgl.accessToken}
-          position="top-left"
-        />
-        <NavigationControl position="bottom-right" />
-        <ControlPanel
-          events={events}
-          marker={marker}
-        />
-
-        {posts.map((post) => (
-          <Marker
-            key={post.id}
-            latitude={post.latitude}
-            longitude={post.longitude}
-            anchor="bottom"
-            onClick={(e) => {
-              // If we let the click event propagates to the map, it will immediately close the popup
-              // with `closeOnClick: true`
-              e.originalEvent.stopPropagation();
-              setCurrentFeature(post);
-            }}
-          >
-            <LocationOnIcon color="secondary" fontSize="medium" />
-          </Marker>
-        ))}
-
-        {currentFeature && (
-          <SidePanel onClose={setCurrentFeature}>
-            <PostCard data={currentFeature} />
-          </SidePanel>
-        )}
-
-        <Marker
-          longitude={marker.longitude}
-          latitude={marker.latitude}
-          anchor="bottom"
-          draggable
-          onDragStart={onMarkerDragStart}
-          onDrag={onMarkerDrag}
-          onDragEnd={onMarkerDragEnd}
         >
-          <LocationOnIcon color="primary" fontSize="large" />
-        </Marker>
+          <GeolocateControl position="top-right" />
+          <GeocoderControl
+            mapboxAccessToken={mapboxgl.accessToken}
+            position="top-left"
+          />
+          <NavigationControl position="top-right" />
+          <ControlPanel events={events} marker={marker}/>
 
-        <InfoDialog/>
+          {posts.map((post) => (
+            <Marker
+              key={post.id}
+              latitude={post.latitude}
+              longitude={post.longitude}
+              anchor="bottom"
+              onClick={(e) => {
+                // If we let the click event propagates to the map, it will immediately close the popup
+                // with `closeOnClick: true`
+                e.originalEvent.stopPropagation();
+                setCurrentFeature(post);
+              }}
+            >
+              <LocationOnIcon color="secondary" fontSize="medium" />
+            </Marker>
+          ))}
 
-        <NewsFeed />
+          {currentFeature && (
+            <SidePanel onClose={setCurrentFeature}>
+              <PostCard data={currentFeature} />
+            </SidePanel>
+          )}
 
-        <KeepMountedModal>
-        <PostForm lon={marker.longitude} lat={marker.latitude}/>
-        </KeepMountedModal>
-      </Map>
+          <Marker
+            longitude={marker.longitude}
+            latitude={marker.latitude}
+            anchor="bottom"
+            draggable
+            onDragStart={onMarkerDragStart}
+            onDrag={onMarkerDrag}
+            onDragEnd={onMarkerDragEnd}
+          >
+            <LocationOnIcon color="primary" fontSize="large" />
+          </Marker>
+
+          <InfoDialog />
+
+          <NewsFeed />
+        </Map>
+      </div>
     </>
   );
 }

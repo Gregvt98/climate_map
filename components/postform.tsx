@@ -19,6 +19,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 //const defaultLocation = "Default location";
 
@@ -40,19 +41,21 @@ async function reverse_geocoding(lon, lat) {
   }
 }
 
-export default function PostForm({lon, lat}) {
+export default function PostForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [location, setLocation] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [media, setMedia] = useState(null);
-  const [access_token, setAccessToken] = useState("");
+  //const [access_token, setAccessToken] = useState("");
 
-  //const router = useRouter();
-  //const { lon, lat } = router.query;
+  const { data: session } = useSession();
+  const router = useRouter();
+  const { lon, lat } = router.query;
 
   //get access token on component load
-  useEffect(() => {
+  /**
+   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
     if (!access_token) {
       alert("No access token found. Make sure you are logged in.")
@@ -60,6 +63,8 @@ export default function PostForm({lon, lat}) {
     console.log("access token: ", access_token);
     setAccessToken(access_token);
   }, []);
+   */
+  
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -88,14 +93,18 @@ export default function PostForm({lon, lat}) {
       longitude: lon_float,
       latitude: lat_float,
     };
-
-    //console.log(postData);
+    if (session) {
+      postData['user_id'] = session.user.id
+    }
+    else {
+      postData['user_id'] = 6 //default user
+    }
 
     fetch("http://localhost:8000/api/v1/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${access_token}`,
+        //Authorization: `Bearer ${access_token}`,
       },
       body: JSON.stringify(postData),
     })
@@ -103,7 +112,7 @@ export default function PostForm({lon, lat}) {
       .then((data) => {
         console.log(data)
         alert("New post created!")
-        //router.back() //go to previous page
+        //router.push('/') //go to main page
       })
       .catch((error) => console.error(error));
   };
@@ -118,10 +127,10 @@ export default function PostForm({lon, lat}) {
   };
 
   return (
-    <div className="container mx-auto px-4">
-      <form className="flex flex-col justify-center items-center mt-2 w-full" onSubmit={handleSubmit}>
+    <div className="flex items-center justify-center h-screen">
+      <form className="flex flex-col justify-center items-center mt-2 w-full max-w-4xl" onSubmit={handleSubmit}>
         <TextField
-          className="w-full mt-2"
+          className="w-1/2 mt-2"
           label="Title"
           variant="outlined"
           required
@@ -129,7 +138,7 @@ export default function PostForm({lon, lat}) {
           onChange={handleTitleChange}
         />
         <TextField
-          className="w-full mt-2"
+          className="w-1/2 mt-2"
           label="Content"
           variant="outlined"
           required
@@ -145,7 +154,7 @@ export default function PostForm({lon, lat}) {
           type="file"
           onChange={handleMediaChange}
         />
-        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-full bt-2">
+        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-1/2 bt-2">
           <label htmlFor="media-input">
             <IconButton component="span">
               <Typography>Select a file to upload</Typography>
@@ -168,7 +177,7 @@ export default function PostForm({lon, lat}) {
           )}
         </div>
         <TextField
-          className="w-full mt-2 bt-2"
+          className="w-1/2 mt-2 bt-2"
           label="Coordinates"
           variant="outlined"
           value={`${lon},${lat}`}

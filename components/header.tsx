@@ -30,20 +30,10 @@ const Header = () => {
         )}
         {session && (
           <>
-            <div className="flex flex-row">
-              {/** 
-                 <div className="mr-4">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    console.log("write post");
-                  }}
-                >
-                  Create a post
-                </Button>
-                </div>
-                */}
+            <div className="flex flex-row items-center">
+              <div className="mr-4">
+                <span>{session.user.name ? session.user.name : session.user.email}</span>
+              </div>
               <div className="mr-4">
                 <Button
                   variant="contained"

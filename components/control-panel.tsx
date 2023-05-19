@@ -10,7 +10,16 @@ function round5(value) {
   return (Math.round(value * 1e5) / 1e5).toFixed(5);
 }
 
-export default function ControlPanel(props: {events: Record<string, LngLat>}) {
+export default function ControlPanel(props: {events: Record<string, LngLat>; marker: any}) {
+  const router = useRouter();
+  const handleClick = (e) => {
+    e.preventDefault();
+    router.push({
+        pathname: '/create-post',
+        query: { lon: props.marker.longitude, lat: props.marker.latitude },
+    }
+    );
+  };
 
   return (
     <div className="absolute top-0 right-12 max-w-[320px] bg-white shadow-md p-4 mt-2 text-sm text-gray-600 outline-none">
@@ -31,6 +40,11 @@ export default function ControlPanel(props: {events: Record<string, LngLat>}) {
             </div>
           );
         })}
+      </div>
+      <div className="mt-2">
+        <Button variant="outlined" onClick={handleClick}>
+          Create a new post
+        </Button>
       </div>
     </div>
   );
