@@ -48,6 +48,7 @@ export default function PostForm() {
   const [anonymous, setAnonymous] = useState(false);
   const [media, setMedia] = useState(null);
   //const [access_token, setAccessToken] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const { data: session } = useSession();
   const router = useRouter();
@@ -111,8 +112,11 @@ export default function PostForm() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
-        alert("New post created!")
-        //router.push('/') //go to main page
+        // Set the submitted state to true
+        setIsSubmitted(true);
+        setTimeout(() => {
+          history.back();
+        }, 2000);
       })
       .catch((error) => console.error(error));
   };
@@ -212,6 +216,7 @@ export default function PostForm() {
             Submit
           </Button>
         </div>
+        {isSubmitted && <p>Post submitted successfully!</p>}
       </form>
     </div>
   );
