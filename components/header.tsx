@@ -1,6 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
+import Link from "next/link";
 
 const Header = () => {
   const { data: session, status } = useSession();
@@ -10,7 +11,11 @@ const Header = () => {
   return (
     <nav className="bg-gray-800 text-white py-4 px-6 flex items-center justify-between">
       <div>
+        <Link
+        href="/"
+        >
         <h1 className="text-2xl font-bold">Climate Anxiety Map</h1>
+        </Link>
       </div>
       <div>
         {!session && (

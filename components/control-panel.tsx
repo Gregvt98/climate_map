@@ -42,7 +42,7 @@ export default function ControlPanel(props: {events: Record<string, LngLat>; mar
         })}
       </div>
       <div className="mt-2">
-        <Button variant="outlined" onClick={handleClick}>
+        <Button variant="outlined" color="primary" onClick={handleClick}>
           Create a new post
         </Button>
       </div>

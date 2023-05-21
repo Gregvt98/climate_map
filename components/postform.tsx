@@ -12,6 +12,7 @@ import {
   InputLabel,
   TextField,
   Typography,
+  Alert,
 } from "@mui/material";
 //import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -65,7 +66,6 @@ export default function PostForm() {
     setAccessToken(access_token);
   }, []);
    */
-  
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -95,10 +95,9 @@ export default function PostForm() {
       latitude: lat_float,
     };
     if (session) {
-      postData['user_id'] = session.user.id
-    }
-    else {
-      postData['user_id'] = 6 //default user
+      postData["user_id"] = session.user.id;
+    } else {
+      postData["user_id"] = 6; //default user
     }
 
     fetch("http://localhost:8000/api/v1/posts", {
@@ -111,7 +110,7 @@ export default function PostForm() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
+        console.log(data);
         // Set the submitted state to true
         setIsSubmitted(true);
         setTimeout(() => {
@@ -132,7 +131,21 @@ export default function PostForm() {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <form className="flex flex-col justify-center items-center mt-2 w-full max-w-4xl" onSubmit={handleSubmit}>
+      <form
+        className="flex flex-col justify-center items-center mt-2 w-full max-w-4xl"
+        onSubmit={handleSubmit}
+      >
+        <div className="w-1/2 mt-2">
+          {session ? (
+            <Alert severity="info">
+              You are sharing this post as: {session.user.email}
+            </Alert>
+          ) : (
+            <Alert severity="error">
+              User is not logged in, post will be anonymous.
+            </Alert>
+          )}
+        </div>
         <TextField
           className="w-1/2 mt-2"
           label="Title"
@@ -187,23 +200,7 @@ export default function PostForm() {
           value={`${lon},${lat}`}
           //onChange={handleCoordinatesChange}
         />
-        <FormControl className="" component="fieldset">
-          <div className="flex items-center space-x-2">
-            <FormLabel component="legend">Share anonymously?</FormLabel>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={anonymous}
-                    onChange={handleAnonymousChange}
-                  />
-                }
-                label="Yes"
-              />
-            </FormGroup>
-          </div>
-        </FormControl>
-        <div className="flex justify-center space-x-4">
+        <div className="flex  justify-center space-x-4 mt-2">
           <Button
             className=""
             variant="outlined"
@@ -216,7 +213,13 @@ export default function PostForm() {
             Submit
           </Button>
         </div>
-        {isSubmitted && <p>Post submitted successfully!</p>}
+        <div className="w-1/2 mt-2">
+          {isSubmitted ? (
+            <Alert severity="success">Post submitted successfully!</Alert>
+          ) : (
+            null
+          )}
+        </div>
       </form>
     </div>
   );

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import Map, { GeolocateControl, NavigationControl, Marker } from "react-map-gl";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import type { MarkerDragEvent, LngLat } from "react-map-gl";
 import { useRouter } from "next/router";
 
