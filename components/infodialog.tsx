@@ -65,7 +65,7 @@ export default function InfoDialog() {
               <ul className='list-disc'>
                 <li>Share sentiments related to climate change</li>
                 <li>Explore sentiments shared by other users</li>
-                <li>See climate-related news</li>
+                <li>Explore climate-related news</li>
               </ul>
             </Typography>
           </DialogContentText>
