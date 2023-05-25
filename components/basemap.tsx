@@ -1,28 +1,23 @@
-import * as React from "react";
 import { useEffect, useState, useMemo, useCallback } from "react";
-import Map, { GeolocateControl, NavigationControl, Marker } from "react-map-gl";
+import Map, { GeolocateControl, NavigationControl, Marker, Popup } from "react-map-gl";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import type { MarkerDragEvent, LngLat } from "react-map-gl";
 import { useRouter } from "next/router";
 
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { Typography } from "@mui/material";
-import Button from "@mui/material";
+
 
 import GeocoderControl from "./geocoder-control";
 import PostCard from "./postcard";
-import BasicModal from "./modal";
 import ControlPanel from "./control-panel";
 import NewsFeed from "./newsfeed";
 import SidePanel from "./sidepanel";
 import InfoDialog from "./infodialog";
-import KeepMountedModal from "./keepmountedmodal";
-import PostForm from "./postform";
 
 mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
 
 export default function BaseMap() {
-  const [viewState, setViewState] = React.useState({
+  const [viewState, setViewState] = useState({
     longitude: 4.9,
     latitude: 52.3,
     zoom: 8,
@@ -33,6 +28,7 @@ export default function BaseMap() {
     longitude: viewState.longitude,
     latitude: viewState.latitude,
   });
+  const [popupInfo, setPopupInfo] = useState(true);
   const [events, logEvents] = useState<Record<string, LngLat>>({});
 
   const onMarkerDragStart = useCallback((event: MarkerDragEvent) => {
@@ -57,25 +53,34 @@ export default function BaseMap() {
   const queryParam = router.query.version;
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const userLocation = [position.coords.longitude, position.coords.latitude];
+      setMarker({longitude: userLocation[0], latitude: userLocation[1]});
+    }, function (error) {
+      console.log('Error getting user location:', error);
+    });
+  }, []);
+
+  useEffect(() => {
     const fetchPosts = async () => {
       try {
         if (queryParam == "a") {
           const response = await fetch(
-            `http://localhost:8000/api/v1/posts/?limit=50&q=positive`
+            `http://localhost:8000/api/v1/posts/?limit=100&q=positive`
           );
           const data = await response.json();
           setPosts(data);
           console.log(data);
         } else if (queryParam == "b") {
           const response = await fetch(
-            `http://localhost:8000/api/v1/posts/?limit=50&q=negative`
+            `http://localhost:8000/api/v1/posts/?limit=100&q=negative`
           );
           const data = await response.json();
           setPosts(data);
           console.log(data);
         } else {
           const response = await fetch(
-            `http://localhost:8000/api/v1/posts/?limit=50`
+            `http://localhost:8000/api/v1/posts/?limit=100`
           );
           const data = await response.json();
           setPosts(data);
@@ -140,6 +145,17 @@ export default function BaseMap() {
           >
             <LocationOnIcon color="primary" fontSize="large" />
           </Marker>
+
+          {popupInfo && (
+          <Popup
+            anchor="top-left"
+            longitude={marker.longitude}
+            latitude={marker.latitude}
+            onClose={() => setPopupInfo(false)}
+          >
+            You are here
+          </Popup>
+        )}
 
           <InfoDialog />
 
