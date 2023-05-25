@@ -97,7 +97,7 @@ export default function PostForm() {
     if (session) {
       postData["user_id"] = session.user.id;
     } else {
-      postData["user_id"] = 6; //default user
+      postData["user_id"] = 1; //default user
     }
 
     fetch("http://localhost:8000/api/v1/posts", {
