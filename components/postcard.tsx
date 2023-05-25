@@ -53,7 +53,7 @@ function CenteredTabs() {
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
       <Tabs value={value} onChange={handleChange} centered>
         <Tab label="Overview" />
-        <Tab label="Comments" />
+        <Tab label="Comments" disabled/>
       </Tabs>
     </Box>
   );
@@ -82,7 +82,7 @@ export default function PostCard({ data }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title= {data.user.first_name && data.user.last_name ? data.user.first_name + " " + data.user.last_name: data.user.email}
+        title= {data.user.first_name && data.user.last_name ? data.user.first_name + " " + data.user.last_name: "User ID: " + data.user.id}
         subheader={date}
       />
       {data.image_url ? (
