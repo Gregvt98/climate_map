@@ -161,6 +161,7 @@ export default function PostForm() {
           required
           multiline
           rows={4}
+          placeholder="What kinds of thoughts would you like to share about climate change?"
           value={content}
           onChange={handleContentChange}
         />
@@ -171,7 +172,7 @@ export default function PostForm() {
           type="file"
           onChange={handleMediaChange}
         />
-        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-1/2 bt-2">
+        <div className="flex items-center justify-center mt-2 border-2 border-dashed w-1/2 bt-2 hidden">
           <label htmlFor="media-input">
             <IconButton component="span">
               <Typography>Select a file to upload</Typography>
