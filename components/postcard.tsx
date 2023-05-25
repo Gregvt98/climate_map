@@ -63,22 +63,6 @@ export default function PostCard({ data }) {
   const [expanded, setExpanded] = React.useState(false);
   const [sentiment_analysis, setSentimentAnalysis] = React.useState([]);
 
-  React.useEffect(() => {
-    const fetchSentimentAnalysis = async () => {
-      try {
-        const url = `http://localhost:8000/api/v1/analysis/post/${data.id}`;
-        const response = await fetch(url);
-        const sentiment_data = await response.json();
-        setSentimentAnalysis(sentiment_data);
-        console.log(sentiment_analysis);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    };
-
-    fetchSentimentAnalysis();
-  }, [data]); //make new call when data card data changes
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -135,7 +119,7 @@ export default function PostCard({ data }) {
             <ListItemIcon>
               <SentimentNeutralIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary={`Sentiment: ${sentiment_analysis.type}`} />
+            <ListItemText primary={`Sentiment type: ${data.sentiment_analysis.type}`} />
           </ListItemButton>
         </List>
       </div>
