@@ -24,7 +24,6 @@ export default function ControlPanel(props: {events: Record<string, LngLat>; mar
   return (
     <div className="absolute top-0 right-12 max-w-[320px] bg-white shadow-md p-4 mt-2 text-sm text-gray-600 outline-none">
       <h3 className="uppercase">Draggable Marker</h3>
-      <p>Drag marker to a location to log a sentiment.</p>
       <div>
         {eventNames.map((eventName) => {
           const { events = {} } = props;
@@ -41,6 +40,7 @@ export default function ControlPanel(props: {events: Record<string, LngLat>; mar
           );
         })}
       </div>
+      <p>Drag blue market to a location and click button below to share a post about that location.</p>
       <div className="mt-2">
         <Button variant="outlined" color="primary" onClick={handleClick}>
           Create a new post

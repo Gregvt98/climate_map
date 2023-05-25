@@ -56,6 +56,7 @@ export default function BaseMap() {
     navigator.geolocation.getCurrentPosition(function (position) {
       const userLocation = [position.coords.longitude, position.coords.latitude];
       setMarker({longitude: userLocation[0], latitude: userLocation[1]});
+      setViewState({longitude: userLocation[0], latitude: userLocation[1], zoom: 8});
     }, function (error) {
       console.log('Error getting user location:', error);
     });
