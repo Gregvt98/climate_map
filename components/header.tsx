@@ -11,33 +11,39 @@ const Header = () => {
   return (
     <nav className="bg-gray-800 text-white py-4 px-6 flex items-center justify-between">
       <div>
-        <Link
-        href="/"
-        >
-        <h1 className="text-2xl font-bold">Climate Anxiety Map</h1>
+        <Link href="/">
+          <h1 className="text-2xl font-bold">Climate Anxiety Map</h1>
         </Link>
       </div>
       <div>
         {!session && (
           <>
-            <Button variant="contained" onClick={() => signIn()}>
-              Sign In
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => {
-                router.push("/signup");
-              }}
-            >
-              Sign Up
-            </Button>
+            <div className="flex flex-row space-x-4">
+              <div className="">
+                <Button variant="contained" onClick={() => signIn()}>
+                  Sign In
+                </Button>
+              </div>
+              <div className="">
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    router.push("/signup");
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </div>
+            </div>
           </>
         )}
         {session && (
           <>
             <div className="flex flex-row items-center">
               <div className="mr-4">
-                <span>{session.user.name ? session.user.name : session.user.email}</span>
+                <span>
+                  {session.user.name ? session.user.name : session.user.email}
+                </span>
               </div>
               <div className="mr-4">
                 <Button
