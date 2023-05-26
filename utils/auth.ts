@@ -66,7 +66,7 @@ export const login = async (email: string, password: string) => {
 export const signUp = async (
   email: string,
   password: string,
-  passwordConfirmation: string
+  //passwordConfirmation: string
 ) => {
   // Assert email or password or password confirmation is not empty
   if (!(email.length > 0)) {
@@ -75,16 +75,13 @@ export const signUp = async (
   if (!(password.length > 0)) {
     throw new Error('Password was not provided');
   }
-  if (!(passwordConfirmation.length > 0)) {
-    throw new Error('Password confirmation was not provided');
-  }
 
   const formData = new FormData();
   // OAuth2 expects form data, not JSON data
   formData.append('username', email);
   formData.append('password', password);
 
-  const request = new Request('/api/signup', {
+  const request = new Request('http://localhost:8000/api/signup', {
     method: 'POST',
     body: formData,
   });
