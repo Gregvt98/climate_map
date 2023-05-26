@@ -53,7 +53,9 @@ export default function PostForm() {
 
   const { data: session } = useSession();
   const router = useRouter();
-  const { lon, lat } = router.query;
+  const version = router.query.version;
+  const lon = router.query.lon;
+  const lat = router.query.lat;
 
   //const location = reverse_geocoding(lon, lat);
   //console.log(location);
@@ -96,6 +98,7 @@ export default function PostForm() {
       content: content,
       longitude: lon_float,
       latitude: lat_float,
+      version: version,
     };
     if (session) {
       postData["user_id"] = session.user.id;
@@ -145,7 +148,7 @@ export default function PostForm() {
             </Alert>
           ) : (
             <Alert severity="error">
-              User is not logged in, post will be anonymous.
+              User is not logged in, this post will be anonymous. To share the post with a username, go to the sign up page and login.
             </Alert>
           )}
         </div>

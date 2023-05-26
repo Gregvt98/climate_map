@@ -16,7 +16,7 @@ export default function ControlPanel(props: {events: Record<string, LngLat>; mar
     e.preventDefault();
     router.push({
         pathname: '/create-post',
-        query: { lon: props.marker.longitude, lat: props.marker.latitude },
+        query: { version: router.query.version, lon: props.marker.longitude, lat: props.marker.latitude },
     }
     );
   };
