@@ -74,7 +74,7 @@ export default function PostCard({ data }) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
-            {data.user.first_name ? data.user.first_name[0].toUpperCase() : "A"}
+            {data.user.email ? data.user.email[0].toUpperCase() : "A"}
           </Avatar>
         }
         action={
@@ -82,7 +82,7 @@ export default function PostCard({ data }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title= {data.user.first_name && data.user.last_name ? data.user.first_name + " " + data.user.last_name: "Username: " + data.user.email}
+        title= {data.user.email? "Username: " + data.user.email : "User ID: " + data.user.id}
         subheader={date}
       />
       {data.image_url ? (
