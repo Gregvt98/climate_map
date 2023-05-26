@@ -9,7 +9,7 @@ import { Typography } from '@mui/material';
 import { useEffect } from 'react';
 
 export default function InfoDialog() {
-  const [open, setOpen] = React.useState(true); //set to false
+  const [open, setOpen] = React.useState(false); //set to false
   const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
 
   //Show dialog on map open

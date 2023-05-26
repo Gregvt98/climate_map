@@ -45,7 +45,7 @@ async function reverse_geocoding(lon, lat) {
 export default function PostForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [location, setLocation] = useState("");
+  //const [location, setLocation] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [media, setMedia] = useState(null);
   //const [access_token, setAccessToken] = useState("");
@@ -54,6 +54,9 @@ export default function PostForm() {
   const { data: session } = useSession();
   const router = useRouter();
   const { lon, lat } = router.query;
+
+  //const location = reverse_geocoding(lon, lat);
+  //console.log(location);
 
   //get access token on component load
   /**
@@ -97,7 +100,7 @@ export default function PostForm() {
     if (session) {
       postData["user_id"] = session.user.id;
     } else {
-      postData["user_id"] = 1; //default user
+      postData["user_id"] = 2; //default user
     }
 
     fetch("http://localhost:8000/api/v1/posts", {

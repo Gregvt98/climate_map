@@ -26,16 +26,16 @@ function Copyright(props: any) {
 
 
 export default function SignUp() {
-    const [first_name, setFirstName] = useState<string>("");
-    const [last_name, setLastName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
+    //const [first_name, setFirstName] = useState<string>("");
+    //const [last_name, setLastName] = useState<string>("");
+    const [username, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         //setError("");
         try {
-          const data = await signUp(first_name, last_name, email, password);
+          const data = await signUp(username, password);
           if (data) {
             router.back();
             //console.log("Sign up successful!")
@@ -44,6 +44,7 @@ export default function SignUp() {
           if (err instanceof Error) {
             // handle errors thrown from frontend
             console.log(err.message);
+            console.log(err)
           } else {
             // handle errors thrown from backend
             console.log(String(err));
@@ -63,41 +64,16 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  value={first_name}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  value={last_name}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="username"
+                  label="Username"
+                  name="username"
+                  //autoComplete="username"
+                  value={username}
+                  onChange={(e) => setUserName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>

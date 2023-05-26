@@ -82,7 +82,7 @@ export default function PostCard({ data }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title= {data.user.first_name && data.user.last_name ? data.user.first_name + " " + data.user.last_name: "User ID: " + data.user.id}
+        title= {data.user.first_name && data.user.last_name ? data.user.first_name + " " + data.user.last_name: "Username: " + data.user.email}
         subheader={date}
       />
       {data.image_url ? (
