@@ -12,7 +12,7 @@ const Header = () => {
     <nav className="bg-gray-800 text-white py-4 px-6 flex items-center justify-between">
       <div>
         <Link href="/">
-          <h1 className="text-2xl font-bold">Climate Anxiety Map</h1>
+          <h1 className="text-2xl font-bold">Home</h1>
         </Link>
       </div>
       <div>
