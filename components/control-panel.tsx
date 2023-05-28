@@ -40,7 +40,7 @@ export default function ControlPanel(props: {events: Record<string, LngLat>; mar
           );
         })}
       </div>
-      <p>Drag blue market to a location and click button below to share a post about that location.</p>
+      <p>Drag the large blue marker to a location and click button below to share a post about that location.</p>
       <div className="mt-2">
         <Button variant="outlined" color="primary" onClick={handleClick}>
           Create a new post

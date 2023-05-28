@@ -130,7 +130,6 @@ export default function PostForm() {
     // reset form data
     setTitle("");
     setContent("");
-    setLocation("");
     setAnonymous(false);
     setMedia(null);
   };
@@ -167,7 +166,7 @@ export default function PostForm() {
           required
           multiline
           rows={4}
-          placeholder="What kinds of thoughts would you like to share about climate change?"
+          placeholder="Share a passing thought on climate change, a heartfelt reflection on the loss of a cherished place due to the impact of climate change, etc."
           value={content}
           onChange={handleContentChange}
         />

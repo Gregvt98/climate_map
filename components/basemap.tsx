@@ -20,7 +20,7 @@ export default function BaseMap() {
   const [viewState, setViewState] = useState({
     longitude: 4.9,
     latitude: 52.3,
-    zoom: 8,
+    zoom: 10,
   });
   const [posts, setPosts] = useState([]);
   const [currentFeature, setCurrentFeature] = useState(null);

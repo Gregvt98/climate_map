@@ -59,6 +59,14 @@ function CenteredTabs() {
   );
 }
 
+const TopicChip = ({ topic }) => {
+  return (
+    <div className="inline-flex items-center bg-blue-500 text-white text-sm font-medium rounded-full px-3 py-1">
+      {topic}
+    </div>
+  );
+};
+
 export default function PostCard({ data }) {
   const [expanded, setExpanded] = React.useState(false);
   const [sentiment_analysis, setSentimentAnalysis] = React.useState([]);
@@ -82,8 +90,8 @@ export default function PostCard({ data }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title= {data.user.email? "Username: " + data.user.email : "User ID: " + data.user.id}
-        subheader={date}
+        title= {data.user.email? data.user.email : "User ID: " + data.user.id}
+        subheader={"Shared on: " + date}
       />
       {data.image_url ? (
         <CardMedia
@@ -94,6 +102,7 @@ export default function PostCard({ data }) {
         />
       ) : null}
       <CardContent>
+        {/** <TopicChip topic={"Science"}/>*/}
         <div className="">
         <Typography variant="h6" color="text.primary">
           {data.title}
@@ -115,12 +124,14 @@ export default function PostCard({ data }) {
               primary={`Lat: ${data.latitude}, Lon: ${data.longitude}`}
             />
           </ListItemButton>
-          <ListItemButton>
+          {/**
+           <ListItemButton>
             <ListItemIcon>
               <SentimentNeutralIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary={`Sentiment type: ${data.sentiment_analysis.type}`} />
           </ListItemButton>
+           */}
         </List>
       </div>
     </Card>
