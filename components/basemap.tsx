@@ -20,7 +20,7 @@ export default function BaseMap() {
   const [viewState, setViewState] = useState({
     longitude: 4.9,
     latitude: 52.3,
-    zoom: 10,
+    zoom: 7,
   });
   const [posts, setPosts] = useState([]);
   const [currentFeature, setCurrentFeature] = useState(null);
@@ -48,6 +48,19 @@ export default function BaseMap() {
     logEvents((_events) => ({ ..._events, onDragEnd: event.lngLat }));
   }, []);
 
+  const [showSatelliteLayer, setShowSatelliteLayer] = useState(false);
+  const [toggleMessage, setToggleMessage] = useState("Show satellite layer");
+
+  const toggleSatelliteLayer = () => {
+    setShowSatelliteLayer(!showSatelliteLayer);
+    if (showSatelliteLayer == true) {
+      setToggleMessage("Show satellite layer");
+    }
+    else {
+      setToggleMessage("Show streets layer");
+    }
+  };
+
   //set version
   const router = useRouter();
   const queryParam = router.query.version;
@@ -56,7 +69,7 @@ export default function BaseMap() {
     navigator.geolocation.getCurrentPosition(function (position) {
       const userLocation = [position.coords.longitude, position.coords.latitude];
       setMarker({longitude: userLocation[0], latitude: userLocation[1]});
-      setViewState({longitude: userLocation[0], latitude: userLocation[1], zoom: 8});
+      setViewState({longitude: userLocation[0], latitude: userLocation[1], zoom: 7});
     }, function (error) {
       console.log('Error getting user location:', error);
     });
@@ -101,7 +114,7 @@ export default function BaseMap() {
         <Map
           {...viewState}
           onMove={(evt) => setViewState(evt.viewState)}
-          mapStyle="mapbox://styles/mapbox/streets-v12"
+          mapStyle={showSatelliteLayer ? 'mapbox://styles/mapbox/satellite-v9' : 'mapbox://styles/mapbox/streets-v12'}
           mapboxAccessToken={mapboxgl.accessToken}
         >
           <GeolocateControl position="top-right" />
@@ -159,6 +172,8 @@ export default function BaseMap() {
         )}
 
           <InfoDialog />
+
+          <button className="absolute bottom-10 left-0 mb-4 ml-4 bg-gray-800 text-white text-base font-bold py-2 px-4 rounded-lg border-2 border-white" onClick={toggleSatelliteLayer}>{toggleMessage}</button>
 
           <NewsFeed />
         </Map>
