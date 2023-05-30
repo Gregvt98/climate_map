@@ -26,6 +26,10 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import SaveIcon from "@mui/icons-material/Save";
+import { DateRange } from "@mui/icons-material";
+
+const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN;
+let access_token;
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -67,9 +71,29 @@ const TopicChip = ({ topic }) => {
   );
 };
 
+
+
 export default function PostCard({ data }) {
   const [expanded, setExpanded] = React.useState(false);
   const [sentiment_analysis, setSentimentAnalysis] = React.useState([]);
+  const [location, setLocation] = React.useState(null);
+
+  React.useEffect(() => {
+    async function reverse_geocoding(lon, lat) {
+      try {
+        const response = await fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${mapboxToken}`
+        );
+        const jsonData = await response.json();
+        const place = jsonData.features[0]["place_name"];
+        console.log(place);
+        setLocation(place);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    reverse_geocoding(data.longitude, data.latitude);
+  }, [data])
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -121,7 +145,7 @@ export default function PostCard({ data }) {
               <LocationOnIcon color="primary" />
             </ListItemIcon>
             <ListItemText
-              primary={`Lat: ${data.latitude}, Lon: ${data.longitude}`}
+              primary={location}
             />
           </ListItemButton>
           {/**
