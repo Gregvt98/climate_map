@@ -25,7 +25,8 @@ export default function GeocoderControl(props: GeocoderControlProps) {
       const ctrl = new MapboxGeocoder({
         ...props,
         marker: false,
-        accessToken: props.mapboxAccessToken
+        accessToken: props.mapboxAccessToken,
+        placeholder: 'Search for places',
       });
       ctrl.on('loading', props.onLoading);
       ctrl.on('results', props.onResults);
