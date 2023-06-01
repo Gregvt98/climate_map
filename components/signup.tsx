@@ -16,7 +16,7 @@ function Copyright(props: any) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="#">
-        Your Website
+        
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -54,7 +54,7 @@ export default function SignUp() {
 
 
   return (
-    <div className='flex justify-center'>
+    <div className='flex flex-col items-center mt-8 h-screen'>
     <div className='flex flex-col items-center mt-8 max-w-sm'>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
@@ -100,7 +100,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/login" variant="body2">
+                <Link href="/api/auth/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
