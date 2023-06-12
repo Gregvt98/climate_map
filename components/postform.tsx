@@ -156,6 +156,7 @@ export default function PostForm() {
           label="Title"
           variant="outlined"
           required
+          placeholder="The subject of your post"
           value={title}
           onChange={handleTitleChange}
         />
@@ -201,9 +202,12 @@ export default function PostForm() {
         </div>
         <TextField
           className="w-1/2 mt-2 bt-2"
-          label="Coordinates"
+          label="Coordinates (set to pin location)"
           variant="outlined"
           value={`${lon},${lat}`}
+          InputProps={{
+            readOnly: true,
+          }}
           //onChange={handleCoordinatesChange}
         />
         <div className="flex  justify-center space-x-4 mt-2">

@@ -58,7 +58,7 @@ function NewsCard({ newsItem }) {
 export default function NewsFeed() {
   const [open, setOpen] = useState(true);
   const [news, setNews] = useState([]);
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
   //add geolocation to show country specific news?
 
   const handleExpandClick = () => {

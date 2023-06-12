@@ -1,0 +1,19 @@
+{
+  "type": "negative",
+  "score": -0.24547072425,
+  "ratio": -0.6666577480940075,
+  "keywords": [
+    { "word": "will", "score": 0.235845868 },
+    { "word": "action", "score": 0.152059727 },
+    { "word": "future", "score": 0.103055557 },
+    { "word": "suffer", "score": -0.792895493 },
+    { "word": "not", "score": -0.625 },
+    { "word": "blame", "score": -0.569059516 },
+    { "word": "enough", "score": -0.467771937 }
+  ],
+  "version": "7.5.3",
+  "author": "twinword inc.",
+  "email": "help@twinword.com",
+  "result_code": "200",
+  "result_msg": "Success"
+}
