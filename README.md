@@ -1,3 +1,5 @@
+This repository contains the code for the prototype front-end implemented as part of the master's thesis "Design and Evaluation of an Interactive World Map to Share Climate Change Sentiments".
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
